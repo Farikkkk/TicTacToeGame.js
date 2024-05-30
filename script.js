@@ -32,6 +32,10 @@ function cellClicked() {
 
   updateCell(this, cellIndex);
   checkWinner();
+
+  if (running && currentPlayer === "O") {
+    computerMove();
+  }
 }
 
 function updateCell(cell, index) {
@@ -79,4 +83,81 @@ function restartGame() {
   statusText.innerHTML = `${currentPlayer}'s turn `;
   cells.forEach((cell) => (cell.innerHTML = ""));
   running = true;
+}
+
+function computerMove() {
+  let bestScore = -Infinity;
+  let bestMove;
+
+  for (let i = 0; i < options.length; i++) {
+    if (options[i] === "") {
+      options[i] = "O";
+      let score = minimax(options, 0, false);
+      options[i] = "";
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = i;
+      }
+    }
+  }
+  updateCell(cells[bestMove], bestMove);
+  checkWinner();
+}
+
+function minimax(board, depth, isMaximizing) {
+  let scores = {
+    X: -1,
+    O: 1,
+    tie: 0,
+  };
+
+  let result = checkWinnerForMinimax();
+  if (result !== null) {
+    return scores[result];
+  }
+
+  if (isMaximizing) {
+    let bestScore = -Infinity;
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === "") {
+        board[i] = "O";
+        let score = minimax(board, depth + 1, false);
+        board[i] = "";
+        bestScore = Math.max(score, bestScore);
+      }
+    }
+    return bestScore;
+  } else {
+    let bestScore = Infinity;
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === "") {
+        board[i] = "X";
+        let score = minimax(board, depth + 1, true);
+        board[i] = "";
+        bestScore = Math.min(score, bestScore);
+      }
+    }
+    return bestScore;
+  }
+}
+
+function checkWinnerForMinimax() {
+  for (let i = 0; i < winConditions.length; i++) {
+    const condition = winConditions[i];
+    const cellA = options[condition[0]];
+    const cellB = options[condition[1]];
+    const cellC = options[condition[2]];
+
+    if (cellA == "" || cellB == "" || cellC == "") {
+      continue;
+    }
+    if (cellA == cellB && cellB == cellC) {
+      return cellA;
+    }
+  }
+
+  if (!options.includes("")) {
+    return "tie";
+  }
+  return null;
 }
