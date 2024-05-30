@@ -1,6 +1,7 @@
 const cells = document.querySelectorAll(".cell");
 const statusText = document.querySelector(".status-text");
 const restartBtn = document.querySelector(".restart-btn");
+const counter = document.querySelector(".counter");
 
 const winConditions = [
   [0, 1, 2],
@@ -16,6 +17,8 @@ const winConditions = [
 let options = ["", "", "", "", "", "", "", "", ""];
 let currentPlayer = "X";
 let running = false;
+let playerWins = 0;
+let aiWins = 0;
 
 initializeGame();
 
@@ -46,6 +49,7 @@ function updateCell(cell, index) {
 function changePlayer() {
   currentPlayer = currentPlayer === "X" ? "O" : "X";
   statusText.innerHTML = `${currentPlayer}'s turn`;
+  statusText.innerHTML = "";
 }
 
 function checkWinner() {
@@ -67,6 +71,13 @@ function checkWinner() {
   }
 
   if (roundWon) {
+    if (currentPlayer === "X") {
+      playerWins++;
+    } else {
+      aiWins++;
+    }
+    updateCounter();
+
     statusText.innerHTML = `${currentPlayer} wins!`;
     running = false;
   } else if (!options.includes("")) {
@@ -75,6 +86,10 @@ function checkWinner() {
   } else {
     changePlayer();
   }
+}
+
+function updateCounter() {
+  counter.innerHTML = `You: ${playerWins} vs AI: ${aiWins}`;
 }
 
 function restartGame() {

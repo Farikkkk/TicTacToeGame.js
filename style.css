@@ -13,21 +13,41 @@ body {
   overflow: hidden;
 }
 
+.counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: #0c0c20;
+  font-family: "Roboto", sans-serif;
+}
+
+.counter-span-you {
+  margin: 0 10px;
+}
+
+.counter-span-ai {
+  margin: 0 10px;
+}
+
 h1 {
   text-align: center;
-  margin: 10px;
+  margin: 15px;
   text-shadow: 0 1px 2px #231e4d;
   font-family: "Roboto", sans-serif;
   font-weight: 700;
   font-style: italic;
   color: #0c0c20;
 }
+
 .status-text {
   text-align: center;
   margin: 10px;
-  font-family: cursive;
+  font-family: "Roboto", sans-serif;
   font-size: 30px;
 }
+
 .cell {
   width: 75px;
   height: 75px;
@@ -55,9 +75,9 @@ h1 {
   border: none;
   background-color: #6d6c70;
   transition: all 0.2s ease;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
-  font-family: cursive;
+  font-family: "Roboto", sans-serif;
   color: #0e0e11;
   outline: none;
 }
